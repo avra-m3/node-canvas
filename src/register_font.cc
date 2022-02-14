@@ -142,10 +142,12 @@ get_family_name(FT_Face face) {
 #ifdef PERFECT_MATCHES_ENABLED
           // Prepend an '@' to the postscript name
           if (name.name_id == TT_NAME_ID_PS_NAME) {
-            std::string best_buf_modified = "@";
-            best_buf_modified += buf;
+            size_t len = strlen(buf);
+            best_buf = (char *)malloc(len + 2);
+            best_buf[0] = '@';
+            strncpy(best_buf + 1, buf, len);
+            best_buf[len + 1] = '\0';
             free(buf);
-            buf = strdup(best_buf_modified.c_str());
           }
 #endif
         } else {
